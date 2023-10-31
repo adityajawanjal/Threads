@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 #logo {
   width: 30px;
   height: 36px;
@@ -13,4 +17,15 @@
   height: 40px;
   border-radius: 50%;
   display: inline;
+}
+#search {
+  border: none;
+  margin-left: 2rem;
+  font-size: 1.1rem;
+}
+#search:focus {
+  outline: none;
+}
+#search::placeholder {
+  font-size: 1.1rem;
 }

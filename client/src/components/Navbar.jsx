@@ -12,8 +12,7 @@ const Navbar = () => {
       flexDirection={"row"}
       width={one ? "60%" : "100%"}
       justifyContent={"space-between"}
-      p={"5px"}
-      
+      px={"5px"}
     >
       <Link to={"/"}>
         <GoHomeFill size={one ? 28 : 24} color="#000" />

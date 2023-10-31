@@ -7,7 +7,7 @@ const Header = () => {
     const one = useMediaQuery("(min-width:700px)");
   return (
     <>
-      <Grid container>
+      <Grid container p={1}>
         <Grid
           item
           xs={one ? 2 : 6}
@@ -24,7 +24,7 @@ const Header = () => {
           py={1}
           position={one ? "static" : "fixed"}
           bottom={0}
-          width={"90%"}
+          width={"95%"}
           display={"flex"}
           justifyContent={"center"}
         >
