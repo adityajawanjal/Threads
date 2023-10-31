@@ -1,0 +1,16 @@
+#logo {
+  width: 30px;
+  height: 36px;
+  margin-bottom: 20px;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  color: #000;
+}
+.user-profile {
+  width: 100%;
+  height: 40px;
+  border-radius: 50%;
+  display: inline;
+}
