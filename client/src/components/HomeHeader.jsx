@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 
 const HomeHeader = () => {
-  const one = useMediaQuery("(min-width:700px)");
+  const _700 = useMediaQuery("(min-width:700px)");
   return (
     <>
-      {one ? (
+      {_700 ? (
         <>
           <Stack
             flexDirection={"row"}
@@ -22,7 +22,7 @@ const HomeHeader = () => {
             borderBottom={"2px solid gray"}
             maxWidth={"620px"}
             mx={"auto"}
-            mt={5}
+            mt={16}
           >
             <Stack alignItems={"center"} flexDirection={"row"}>
               <Avatar

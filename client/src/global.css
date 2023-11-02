@@ -29,3 +29,11 @@
 #search::placeholder {
   font-size: 1.1rem;
 }
+.my-border {
+  border-bottom: 0.5px solid rgb(156, 155, 155);
+}
+.bg {
+  background: rgb(247, 247, 247);
+  opacity: 0.8;
+  border-radius: 10px;
+}

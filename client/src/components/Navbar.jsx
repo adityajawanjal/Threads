@@ -6,28 +6,29 @@ import { Link } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Navbar = () => {
-  const one = useMediaQuery("(min-width:700px)");
+  const _700 = useMediaQuery("(min-width:700px)");
   return (
     <Stack
       flexDirection={"row"}
-      width={one ? "60%" : "100%"}
+      width={_700 ? "60%" : "100%"}
       justifyContent={"space-between"}
       px={"5px"}
+      zIndex={1}
     >
       <Link to={"/"}>
-        <GoHomeFill size={one ? 28 : 24} color="#000" />
+        <GoHomeFill size={_700 ? 28 : 24} color="#000" />
       </Link>
       <Link to={"/search"}>
-        <GoSearch size={one ? 28 : 24} color="#000" />
+        <GoSearch size={_700 ? 28 : 24} color="#000" />
       </Link>
       <Link to={"/edit"}>
-        <FiEdit size={one ? 28 : 24} color="#000" />
+        <FiEdit size={_700 ? 28 : 24} color="#000" />
       </Link>
       <Link to={"/activity"}>
-        <AiOutlineHeart size={one ? 28 : 24} color="#000" />
+        <AiOutlineHeart size={_700 ? 28 : 24} color="#000" />
       </Link>
       <Link to={"/profile"}>
-        <AiOutlineUser size={one ? 28 : 24} color="#000" />
+        <AiOutlineUser size={_700 ? 28 : 24} color="#000" />
       </Link>
     </Stack>
   );
