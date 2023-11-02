@@ -1,3 +1,4 @@
+
 import HomeHeader from "../components/HomeHeader";
 import HomePosts from "../components/HomePosts";
 
@@ -10,6 +11,7 @@ const Home = () => {
       <HomePosts />
       <HomePosts />
       <HomePosts />
+      
     </>
   );
 };
