@@ -12,7 +12,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { AiOutlineHeart, AiOutlineRetweet } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
-// import { createStyles, makeStyles } from "@mui/material/styles";
 
 const HomePosts = () => {
   const _300 = useMediaQuery("(min-width:300px)");
@@ -63,12 +62,12 @@ const HomePosts = () => {
               border={"1px solid gray"}
             ></Box>
             <AvatarGroup
-              max={4}
+              max={3}
               sx={{
                 "& .MuiAvatar-root": {
-                  width: 16,
-                  height: 16,
-                  fontSize: "0.5rem",
+                  width: 20,
+                  height: 20,
+                  fontSize: "0.6rem",
                 },
               }}
             >
@@ -112,13 +111,13 @@ const HomePosts = () => {
             width={"100%"}
             height={"auto"}
           />
-          <Stack flexDirection={"row"} mt={1} gap={_350 ? 2 : 1}>
+          <Stack flexDirection={"row"} mt={1} gap={_350 ? 2 : 1} ml={1}>
             <AiOutlineHeart size={_350 ? 28 : _300 ? 24 : 20} />
             <FaRegComment size={_350 ? 28 : _300 ? 24 : 20} />
             <AiOutlineRetweet size={_350 ? 28 : _300 ? 24 : 20} />
             <BsSend size={_350 ? 28 : _300 ? 24 : 20} />
           </Stack>
-          <Stack flexDirection={"row"} mt={1} gap={1}>
+          <Stack flexDirection={"row"} mt={1} gap={1} ml={1}>
             <Typography fontSize={_350 ? "1rem" : "0.7rem"} color={"gray"}>
               44 replies
             </Typography>
