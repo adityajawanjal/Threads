@@ -1,10 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Avatar, Button, Grid, Stack, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ProfileBar = () => {

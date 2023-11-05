@@ -4,11 +4,11 @@ import ProfileBar from "../components/ProfileBar";
 
 const Search = () => {
   const _700 = useMediaQuery("(min-width:700px)");
+  const _300 = useMediaQuery("(min-width:300px)");
   return (
     <>
       <Stack
         flexDirection={"row"}
-        alignItems={"center"}
         justifyContent={"center"}
         maxWidth={"620px"}
         mx={"auto"}
@@ -20,8 +20,8 @@ const Search = () => {
           alignItems={"center"}
           border={"1px solid gray"}
           borderRadius={"15px"}
-          width={_700 ? "100%" : "70%"}
-          py={0.5}
+          width={_700 ? "100%" : "90%"}
+          py={_300 ? 0.5 : 0}
           px={3}
         >
           <FiSearch size={28} />
