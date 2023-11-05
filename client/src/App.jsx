@@ -5,8 +5,8 @@ import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Edit from "./pages/Edit";
 import Activity from "./pages/Activity";
-import Profile from "./pages/Profile";
 import Header from "./components/Header";
+import ProfileLayout from "./pages/ProfileLayout";
 
 const App = () => {
   return (
@@ -20,7 +20,11 @@ const App = () => {
                 <Route exact path="/search" element={<Search />} />
                 <Route exact path="/edit" element={<Edit />} />
                 <Route exact path="/activity" element={<Activity />} />
-                <Route exact path="/profile" element={<Profile />} />
+                <Route exact path="/profile" element={<ProfileLayout />} >
+                  <Route exact path="threads" element={<>Threads</>}/>
+                  <Route exact path="replies" element={<>Replies</>}/>
+                  <Route exact path="reposts" element={<>Reposts</>}/>
+                </Route>
               </Routes>
             </main>
           </Box>
