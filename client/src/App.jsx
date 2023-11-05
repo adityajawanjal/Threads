@@ -7,6 +7,9 @@ import Edit from "./pages/Edit";
 import Activity from "./pages/Activity";
 import Header from "./components/Header";
 import ProfileLayout from "./pages/ProfileLayout";
+import Threads from "./pages/sub-pages/Threads";
+import Replies from "./pages/sub-pages/Replies";
+import Reposts from "./pages/sub-pages/Reposts";
 
 const App = () => {
   return (
@@ -21,9 +24,9 @@ const App = () => {
                 <Route exact path="/edit" element={<Edit />} />
                 <Route exact path="/activity" element={<Activity />} />
                 <Route exact path="/profile" element={<ProfileLayout />} >
-                  <Route exact path="threads" element={<>Threads</>}/>
-                  <Route exact path="replies" element={<>Replies</>}/>
-                  <Route exact path="reposts" element={<>Reposts</>}/>
+                  <Route exact path="threads" element={<Threads/>}/>
+                  <Route exact path="replies" element={<Replies/>}/>
+                  <Route exact path="reposts" element={<Reposts/>}/>
                 </Route>
               </Routes>
             </main>

@@ -2,17 +2,22 @@ import {
   Avatar,
   AvatarGroup,
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogTitle,
   Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { NavLink, Outlet } from "react-router-dom";
 
 const ProfileLayout = () => {
   const _700 = useMediaQuery("(min-width:700px)");
   const _400 = useMediaQuery("(min-width:400px)");
+
   return (
     <>
       <Stack
@@ -76,9 +81,11 @@ const ProfileLayout = () => {
               <Avatar alt="Remy Sharp" src="" />
               <Avatar alt="Remy Sharp" src="" />
             </AvatarGroup>
-            <Typography color={"gray"} fontSize={_400 ? "1rem" : "0.8rem"}>
-              3 followers
-            </Typography>
+            <Button>
+              <Typography color={"gray"} fontSize={_400 ? "1rem" : "0.8rem"}>
+                3 followers
+              </Typography>
+            </Button>
           </Stack>
           <BsInstagram size={32} />
         </Stack>
