@@ -1,13 +1,30 @@
-import { Grid } from "@mui/material";
+import { Button, Grid, Menu, MenuItem } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { BiMenuAltRight } from "react-icons/bi";
 import Navbar from "./Navbar";
+import { useState } from "react";
 
 const Header = () => {
   const _700 = useMediaQuery("(min-width:700px)");
+
+  const [openMenu, setOpenMenu] = useState(null);
+  const open = Boolean(openMenu);
+  const handleClick = (e) => {
+    setOpenMenu(e.currentTarget);
+  };
+  const handleClose = () => {
+    setOpenMenu(null);
+  };
+
   return (
     <>
-      <Grid container position={_700 ? "fixed" : "static"} px={1} top={0} zIndex={3}>
+      <Grid
+        container
+        position={_700 ? "fixed" : "static"}
+        px={1}
+        top={0}
+        zIndex={3}
+      >
         <Grid
           item
           xs={_700 ? 2 : 6}
@@ -40,7 +57,25 @@ const Header = () => {
           justifyContent={"flex-end"}
           py={1}
         >
-          <BiMenuAltRight size={36} color="gray" />
+          <Button onClick={handleClick}>
+            <BiMenuAltRight size={36} color="gray" />
+          </Button>
+          <Menu
+            anchorEl={openMenu}
+            open={open}
+            onClose={handleClose}
+            elevation={5}
+            sx={{
+              "& .MuiMenuItem-root": {
+                fontWeight: 600,
+              },
+            }}
+          >
+            <MenuItem onClick={handleClose}>Switch apperance</MenuItem>
+            <MenuItem onClick={handleClose}>About</MenuItem>
+            <MenuItem onClick={handleClose}>Report a problem</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </Grid>
       </Grid>
     </>
