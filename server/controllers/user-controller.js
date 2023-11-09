@@ -1,5 +1,4 @@
 const User = require("../models/user-model");
-const Post = require("../models/post-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const formidable = require("formidable");
@@ -151,9 +150,9 @@ exports.unfollowUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({})
-      .populate("followings")
+      .select("-password")
       .populate("followers")
-      .select("-password");
+      .populate("followings");
     return res.status(200).json({ msg: "All users fetched !", users });
   } catch (err) {
     res.status(400).json({ msg: "Error in getAllUsers !", err: err.message });
