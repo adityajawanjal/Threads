@@ -28,7 +28,7 @@ export const serverApi = createApi({
       }),
     }),
     getPost: builder.query({
-      query: (page = 1) => `post?pagle=${page}`,
+      query: (page) => `post?page=${page}`,
       providesTags: ["Post"],
     }),
   }),
