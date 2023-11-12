@@ -3,17 +3,27 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { BiMenuAltRight } from "react-icons/bi";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addToken } from "../redux/slice";
 
 const Header = () => {
   const _700 = useMediaQuery("(min-width:700px)");
 
   const [openMenu, setOpenMenu] = useState(null);
   const open = Boolean(openMenu);
+  const dispatch = useDispatch();
+
   const handleClick = (e) => {
     setOpenMenu(e.currentTarget);
   };
+
   const handleClose = () => {
     setOpenMenu(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch(addToken(null));
   };
 
   return (
@@ -74,7 +84,14 @@ const Header = () => {
             <MenuItem onClick={handleClose}>Switch apperance</MenuItem>
             <MenuItem onClick={handleClose}>About</MenuItem>
             <MenuItem onClick={handleClose}>Report a problem</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                handleLogout();
+              }}
+            >
+              Logout
+            </MenuItem>
           </Menu>
         </Grid>
       </Grid>

@@ -26,9 +26,7 @@ exports.signupUser = async (req, res) => {
     const token = jwt.sign({ tokenId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
-    return res
-      .status(201)
-      .json({ msg: "User Registered Successfully !", token });
+    return res.status(201).json({ msg: "User Registered Successfully !" ,token});
   } catch (err) {
     res.status(400).json({ msg: "Error in signupUser", err: err.message });
   }

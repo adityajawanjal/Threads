@@ -1,12 +1,13 @@
 import { Stack, TextField, useMediaQuery } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 import ProfileBar from "../components/ProfileBar";
+import Layout from "../components/Layout";
 
 const Search = () => {
   const _700 = useMediaQuery("(min-width:700px)");
   const _300 = useMediaQuery("(min-width:300px)");
   return (
-    <>
+    <Layout>
       <Stack
         flexDirection={"row"}
         justifyContent={"center"}
@@ -40,7 +41,7 @@ const Search = () => {
       <ProfileBar />
       <ProfileBar />
       <ProfileBar />
-    </>
+    </Layout>
   );
 };
 

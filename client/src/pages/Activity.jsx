@@ -7,6 +7,7 @@ import {
   Typography,
   Badge,
 } from "@mui/material";
+import Layout from "../components/Layout";
 
 const Activity = () => {
   const _700 = useMediaQuery("(min-width:700px)");
@@ -14,7 +15,7 @@ const Activity = () => {
   const _350 = useMediaQuery("(min-width:350px)");
   const _500 = useMediaQuery("(min-width:500px)");
   return (
-    <>
+    <Layout>
       <Stack
         flexDirection={"row"}
         justifyContent={"center"}
@@ -105,7 +106,7 @@ const Activity = () => {
           </Grid>
         </Grid>
       </Stack>
-    </>
+    </Layout>
   );
 };
 

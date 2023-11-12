@@ -13,13 +13,14 @@ import {
 import { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { NavLink, Outlet } from "react-router-dom";
+import Layout from "../components/Layout";
 
 const ProfileLayout = () => {
   const _700 = useMediaQuery("(min-width:700px)");
   const _400 = useMediaQuery("(min-width:400px)");
 
   return (
-    <>
+    <Layout>
       <Stack
         justifyContent={"center"}
         maxWidth={"620px"}
@@ -111,7 +112,7 @@ const ProfileLayout = () => {
         </Stack>
         <Outlet />
       </Stack>
-    </>
+    </Layout>
   );
 };
 
