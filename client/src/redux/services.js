@@ -27,12 +27,21 @@ export const serverApi = createApi({
         body,
       }),
     }),
+    getUsers: builder.query({
+      query: () => `user`,
+      providesTags: ["User"],
+    }),
     getPost: builder.query({
       query: (page) => `post?page=${page}`,
       providesTags: ["Post"],
     }),
   }),
+  keepUnusedDataFor: 1000 * 60 * 60,
 });
 
-export const { useSignupMutation, useLoginUserMutation, useGetPostQuery } =
-  serverApi;
+export const {
+  useSignupMutation,
+  useLoginUserMutation,
+  useGetUsersQuery,
+  useGetPostQuery,
+} = serverApi;

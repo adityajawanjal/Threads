@@ -1,7 +1,7 @@
 import { Avatar, Button, Grid, Stack, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const ProfileBar = () => {
+const ProfileBar = ({ user }) => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _350 = useMediaQuery("(min-width:350px)");
   const _500 = useMediaQuery("(min-width:500px)");
@@ -35,17 +35,17 @@ const ProfileBar = () => {
                 fontWeight={"700"}
                 fontSize={_300 ? "1rem" : "0.6rem"}
               >
-                salman_khan
+                {user?.userName}
               </Typography>
               <Typography
                 variant="subtitle2"
                 fontSize={_300 ? "1rem" : "0.6rem"}
                 color={"gray"}
               >
-                How is your day going folks !
+                {user?.bio}
               </Typography>
               <Typography fontSize={_350 ? "1rem" : "0.7rem"} mt={1.5}>
-                2105 followers
+                {user?.followers.length > 0 ? `${user.followers.length} followers`: 'No follower'}
               </Typography>
             </Stack>
             <Button

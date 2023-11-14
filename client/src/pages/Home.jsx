@@ -10,11 +10,16 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [showBtn, setShowBtn] = useState(false);
 
-  const { data, isLoading, error } = useGetPostQuery(page);
+  const { data, isLoading, error } = useGetPostQuery(page, {
+    providesTags: (result, error, page) => [{ type: "Post", id: page }],
+  });
 
   if (error) {
     alert(error.data.msg);
     return;
+  }
+  if (data) {
+    console.log(data);
   }
 
   useEffect(() => {
@@ -45,11 +50,17 @@ const Home = () => {
       ) : (
         posts.length > 0 &&
         posts.map((e) => {
-          return <HomePosts key={e._id} />;
+          return <HomePosts key={e._id} post={e} />;
         })
       )}
       {showBtn && (
-        <Stack flexDirection={"row"} justifyContent={"center"} my={2}>
+        <Stack
+          flexDirection={"row"}
+          justifyContent={"center"}
+          mt={2}
+          mb={20}
+          zIndex={5}
+        >
           <Button
             size="large"
             sx={{
