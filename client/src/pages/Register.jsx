@@ -30,9 +30,9 @@ const Register = () => {
     setLogin((pre) => !pre);
   };
 
-  const handleSignup = () => {
+  const handleSignup =async () => {
     const body = { userName, email, password };
-    signup(body);
+    await signup(body);
   };
 
   const handleLogin = () => {

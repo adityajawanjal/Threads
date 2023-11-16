@@ -4,12 +4,17 @@ const User = require("../models/user-model");
 const auth = async (req, res, next) => {
   try {
     const authKey = req.headers.authorization || req.headers.Authorization;
-    const token =authKey?.split(" ")[1];
+    const token = authKey?.split(" ")[1];
     if (!token) {
       return res.status(400).json({ msg: "Token is not provided in auth !" });
     }
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decodedToken.tokenId);
+    const user = await User.findById(decodedToken.tokenId)
+      .populate("followings")
+      .populate("followers")
+      .populate("posts")
+      .populate("reposts")
+      .select("-password");
     if (!user) {
       return res.status(400).json({ msg: "Invalid Token !" });
     }

@@ -8,9 +8,18 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { BsArrowLeftRight } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { toggleAddPostModal } from "../redux/slice";
 
 const HomeHeader = () => {
   const _700 = useMediaQuery("(min-width:700px)");
+
+  const dispatch = useDispatch();
+
+  const handleOpenAddPostModal = () => {
+    dispatch(toggleAddPostModal(true));
+  };
+
   return (
     <>
       {_700 ? (
@@ -45,11 +54,13 @@ const HomeHeader = () => {
             mt={16}
           >
             <Stack alignItems={"center"} flexDirection={"row"}>
-              <Avatar
-                src="https://i0.wp.com/www.desimag.co.uk/wp-content/uploads/2014/01/salman-khan-jai-ho.jpg"
-                alt="salman khan"
+              <Avatar src="" alt="" />
+              <input
+                type="text"
+                placeholder="Start a thread..."
+                className="search"
+                onClick={handleOpenAddPostModal}
               />
-              <input type="text" placeholder="Start a thread..." id="search" />
             </Stack>
             <Button
               variant="outlined"
@@ -59,6 +70,7 @@ const HomeHeader = () => {
                 border: "1px solid gray",
                 alignSelf: "flex-end",
               }}
+              onClick={handleOpenAddPostModal}
             >
               Post
             </Button>

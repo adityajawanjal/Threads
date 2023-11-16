@@ -35,6 +35,14 @@ export const serverApi = createApi({
       query: (page) => `post?page=${page}`,
       providesTags: ["Post"],
     }),
+    addPost: builder.mutation({
+      query: (body) => ({
+        url: `post`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags:['Post']
+    }),
   }),
   keepUnusedDataFor: 1000 * 60 * 60,
 });
@@ -44,4 +52,5 @@ export const {
   useLoginUserMutation,
   useGetUsersQuery,
   useGetPostQuery,
+  useAddPostMutation
 } = serverApi;

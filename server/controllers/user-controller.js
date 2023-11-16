@@ -26,7 +26,9 @@ exports.signupUser = async (req, res) => {
     const token = jwt.sign({ tokenId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
-    return res.status(201).json({ msg: "User Registered Successfully !" ,token});
+    return res
+      .status(201)
+      .json({ msg: "User Registered Successfully !", token });
   } catch (err) {
     res.status(400).json({ msg: "Error in signupUser", err: err.message });
   }
@@ -154,5 +156,31 @@ exports.getAllUsers = async (req, res) => {
     return res.status(200).json({ msg: "All users fetched !", users });
   } catch (err) {
     res.status(400).json({ msg: "Error in getAllUsers !", err: err.message });
+  }
+};
+
+exports.getMe = async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (err) {
+    res.status(400).json({ msg: "Error in getMe !", err: err.message });
+  }
+};
+
+exports.anotherUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id)
+      .populate("followings")
+      .populate("followers")
+      .populate("posts")
+      .populate("reposts")
+      .select("-password");
+    if (!user) {
+      return res.status.json({ msg: "No such user !" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ msg: "Error in getMe !", err: err.message });
   }
 };

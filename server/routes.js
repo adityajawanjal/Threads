@@ -7,6 +7,8 @@ const {
   followUser,
   unfollowUser,
   getAllUsers,
+  getMe,
+  anotherUser,
 } = require("./controllers/user-controller");
 const auth = require("./middlewares/auth");
 const {
@@ -26,6 +28,8 @@ router.put(`/user/me`, auth, updateProfile);
 router.put(`/user/follow/:id`, auth, followUser);
 router.put(`/user/unfollow/:id`, auth, unfollowUser);
 router.get(`/user`, auth, getAllUsers);
+router.get(`/me`, auth, getMe);
+router.get(`/user/:id`, auth, anotherUser);
 
 router.post(`/post`, auth, addPost);
 router.get(`/post`, auth, getAllPosts);
