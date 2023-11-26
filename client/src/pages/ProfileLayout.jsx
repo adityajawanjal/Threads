@@ -14,10 +14,13 @@ import { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { NavLink, Outlet } from "react-router-dom";
 import Layout from "../components/Layout";
+import { useSelector } from "react-redux";
 
 const ProfileLayout = () => {
   const _700 = useMediaQuery("(min-width:700px)");
   const _400 = useMediaQuery("(min-width:400px)");
+
+  const { myself } = useSelector((state) => state.services);
 
   return (
     <Layout>
@@ -35,11 +38,11 @@ const ProfileLayout = () => {
         >
           <Box>
             <Typography fontWeight={700} fontSize={_400 ? "1.3rem" : "1rem"}>
-              Salman_Khan
+              {myself?.userName ? myself.userName : ""}
             </Typography>
             <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
               <Typography fontSize={_400 ? "1rem" : "0.7rem"}>
-                Salman_Khan
+                {myself?.email ? myself.email : ""}
               </Typography>
               <Chip
                 label="threads.net"
@@ -49,8 +52,8 @@ const ProfileLayout = () => {
             </Stack>
           </Box>
           <Avatar
-            src=""
-            alt="PK"
+            src={myself?.profilePic ? myself.profilePic : ""}
+            alt={myself?.userName ? myself.username : ""}
             sx={{
               width: _700 ? "80px" : _400 ? "60px" : "40px",
               height: _700 ? "80px" : _400 ? "60px" : "40px",
@@ -74,17 +77,15 @@ const ProfileLayout = () => {
                 },
               }}
             >
-              <Avatar alt="Remy Sharp" src="" />
-              <Avatar alt="Remy Sharp" src="" />
-              <Avatar alt="Remy Sharp" src="" />
-              <Avatar alt="Remy Sharp" src="" />
-              <Avatar alt="Remy Sharp" src="" />
-              <Avatar alt="Remy Sharp" src="" />
-              <Avatar alt="Remy Sharp" src="" />
+              {myself?.followers?.length > 0
+                ? myself.followers.map((e) => {
+                    return <Avatar alt="Remy Sharp" src="" />;
+                  })
+                : null}
             </AvatarGroup>
             <Button>
               <Typography color={"gray"} fontSize={_400 ? "1rem" : "0.8rem"}>
-                3 followers
+                {myself?.followers.length} followers
               </Typography>
             </Button>
           </Stack>

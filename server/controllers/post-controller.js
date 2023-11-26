@@ -90,31 +90,26 @@ exports.getUserPosts = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const { id } = req.params;
-    await Post.findOneAndUpdate(
-      { _id: id },
-      { $push: { likes: req.user._id } },
-      { new: true }
-    );
-    return res.status(201).json({ msg: "Post Liked !" });
+    const post = await Post.findById(id);
+    const isLiked = post.likes.includes(req.user._id);
+    if (isLiked) {
+      await Post.findOneAndUpdate(
+        { _id: id },
+        { $pull: { likes: req.user._id } },
+        { new: true }
+      );
+      return res.status(201).json({ msg: "Post unLiked !" });
+    } else {
+      await Post.findOneAndUpdate(
+        { _id: id },
+        { $push: { likes: req.user._id } },
+        { new: true }
+      );
+      return res.status(201).json({ msg: "Post Liked !" });
+    }
   } catch (err) {
     return res
       .status(400)
       .json({ msg: "Error in likePost !", err: err.message });
-  }
-};
-
-exports.unlikePost = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await Post.findOneAndUpdate(
-      { _id: id },
-      { $pull: { likes: req.user._id } },
-      { new: true }
-    );
-    return res.status(201).json({ msg: "Post unLiked !" });
-  } catch (err) {
-    return res
-      .status(400)
-      .json({ msg: "Error in unlikePost !", err: err.message });
   }
 };

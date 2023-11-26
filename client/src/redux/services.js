@@ -38,6 +38,9 @@ export const serverApi = createApi({
         body,
       }),
     }),
+    getMe: builder.query({
+      query: () => `me`,
+    }),
     getPost: builder.query({
       query: (page) => `post?page=${page}`,
       providesTags: ["Post"],
@@ -60,5 +63,6 @@ export const {
   useGetUsersQuery,
   useCheckUserNameMutation,
   useGetPostQuery,
-  useAddPostMutation
+  useAddPostMutation,
+  useGetMeQuery
 } = serverApi;

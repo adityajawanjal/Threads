@@ -45,7 +45,9 @@ const ProfileBar = ({ user }) => {
                 {user?.bio}
               </Typography>
               <Typography fontSize={_350 ? "1rem" : "0.7rem"} mt={1.5}>
-                {user?.followers.length > 0 ? `${user.followers.length} followers`: 'No follower'}
+                {user?.followers.length > 0
+                  ? `${user.followers.length} followers`
+                  : "No follower"}
               </Typography>
             </Stack>
             <Button

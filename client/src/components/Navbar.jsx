@@ -14,21 +14,22 @@ import {
 import { Link } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { IoImages } from "react-icons/io5";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAddPostMutation } from "../redux/services";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleAddPostModal } from "../redux/slice";
 
 const Navbar = () => {
   const _700 = useMediaQuery("(min-width:700px)");
-  const { addPostModal } = useSelector((state) => state.services);
-  const [addPost , addPostData] = useAddPostMutation();
+  const { addPostModal, myself } = useSelector((state) => state.services);
+  const [addPost, addPostData] = useAddPostMutation();
 
   const imgRef = useRef();
   const dispatch = useDispatch();
 
   const [text, setText] = useState();
   const [media, setMedia] = useState();
+  const [mediaURL, setMediaURL] = useState();
 
   const handlePost = async () => {
     const data = new FormData();
@@ -99,10 +100,10 @@ const Navbar = () => {
         <DialogContent>
           {" "}
           <Stack flexDirection={"row"} gap={2}>
-            <Avatar src="" alt="" />
+            <Avatar src={myself?.profilePic ? myself.profilePic : ""} alt="" />
             <Stack flexDirection={"column"} gap={2}>
               <Typography fontWeight={700} fontSize={"1.2rem"} color={"black"}>
-                Salman_khan
+                {myself?.userName ? myself.userName : ""}
               </Typography>
               <input
                 placeholder="Start a thread..."
@@ -115,9 +116,20 @@ const Navbar = () => {
                 accept="image/*"
                 id="img-file"
                 ref={imgRef}
-                onChange={(e) => setMedia(e.target.files[0])}
+                onChange={(e) => {
+                  setMedia(e.target.files[0]);
+                  setMediaURL(URL.createObjectURL(e.target.files[0]));
+                }}
               />
               <IoImages size={20} onClick={handleOpenImg} className="cursor" />
+              {media ? (
+                <img
+                  src={mediaURL}
+                  alt="selected pic"
+                  width={200}
+                  height={"auto"}
+                />
+              ) : null}
             </Stack>
           </Stack>
         </DialogContent>

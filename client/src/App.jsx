@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./global.css";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
-import Edit from "./pages/Edit";
 import Activity from "./pages/Activity";
 import ProfileLayout from "./pages/ProfileLayout";
 import Threads from "./pages/sub-pages/Threads";
@@ -12,10 +11,13 @@ import Reposts from "./pages/sub-pages/Reposts";
 import Register from "./pages/Register";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addToken } from "./redux/slice";
+import { addMyself, addToken } from "./redux/slice";
+import { useGetMeQuery } from "./redux/services";
 
 const App = () => {
-  const {token} = useSelector((state)=>state.services);
+  const { token } = useSelector((state) => state.services);
+
+  const { data, error } = useGetMeQuery();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,7 +26,13 @@ const App = () => {
       const newAuth = JSON.parse(auth);
       dispatch(addToken(newAuth));
     }
-  }, [dispatch , token]);
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(addMyself(data));
+    }
+  }, [data, token]);
 
   return (
     <>
@@ -36,7 +44,6 @@ const App = () => {
                 <>
                   <Route exact path="/" element={<Home />} />
                   <Route exact path="/search" element={<Search />} />
-                  <Route exact path="/edit" element={<Edit />} />
                   <Route exact path="/activity" element={<Activity />} />
                   <Route exact path="/profile" element={<ProfileLayout />}>
                     <Route exact path="threads" element={<Threads />} />
