@@ -61,8 +61,11 @@ exports.loginUser = async (req, res) => {
 
 exports.checkAvailableUserName = async (req, res) => {
   try {
-    const { userName } = req.query;
-    if (!userName) {
+    const { userName } = req.body;
+    if (userName?.length < 3) {
+      return res.status(400).json({ msg: "Minimun 3 characters needed !" });
+    }
+    if (!userName || userName === "") {
       return res.status(400).json({ msg: "Please enter userName !" });
     }
     const userExists = await User.findOne({ userName });

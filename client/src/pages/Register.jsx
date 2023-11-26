@@ -8,7 +8,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLoginUserMutation, useSignupMutation } from "../redux/services";
+import {
+  useCheckUserNameMutation,
+  useLoginUserMutation,
+  useSignupMutation,
+} from "../redux/services";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToken } from "../redux/slice";
@@ -23,6 +27,8 @@ const Register = () => {
 
   const [signup, signupData] = useSignupMutation();
   const [loginUser, loginData] = useLoginUserMutation();
+  const [availableUserName, availableUserNameData] = useCheckUserNameMutation();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,22 +36,35 @@ const Register = () => {
     setLogin((pre) => !pre);
   };
 
-  const handleSignup =async () => {
+  const handleCheckUserName = async () => {
+    const body = {
+      userName,
+    };
+    await availableUserName(body);
+  };
+
+  useEffect(() => {
+    if (userName) {
+      handleCheckUserName();
+    }
+  }, [userName]);
+
+  const handleSignup = async () => {
     const body = { userName, email, password };
     await signup(body);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const body = { email, password };
-    loginUser(body);
+    await loginUser(body);
   };
 
   useEffect(() => {
     if (signupData.data) {
       localStorage.setItem("token", JSON.stringify(signupData.data.token));
       dispatch(addToken(signupData.data.token));
-      alert(signupData.data.msg);
       navigate("/");
+      alert(signupData.data.msg);
     }
   }, [signupData, navigate]);
 
@@ -53,8 +72,8 @@ const Register = () => {
     if (loginData.data) {
       localStorage.setItem("token", JSON.stringify(loginData.data.token));
       dispatch(addToken(loginData.data.token));
-      alert(loginData.data.msg);
       navigate("/");
+      alert(loginData.data.msg);
     }
   }, [loginData, navigate]);
 
@@ -96,12 +115,26 @@ const Register = () => {
           {login ? (
             ""
           ) : (
-            <TextField
-              label="userName"
-              variant="filled"
-              sx={{ width: "95%" }}
-              onChange={(e) => setUserName(e.target.value)}
-            />
+            <>
+              <TextField
+                label="userName"
+                variant="filled"
+                sx={{ width: "95%" }}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+              {availableUserNameData?.data || availableUserNameData?.error ? (
+                <Typography
+                  variant="caption"
+                  color={availableUserNameData?.data ? "green" : "red"}
+                >
+                  {availableUserNameData.data
+                    ? availableUserNameData.data.msg
+                    : availableUserNameData.error
+                    ? availableUserNameData.error.data.msg
+                    : null}
+                </Typography>
+              ) : null}
+            </>
           )}
           <TextField
             label="email"

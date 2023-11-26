@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.post(`/signup`, signupUser);
 router.post(`/login`, loginUser);
-router.get(`/check`, checkAvailableUserName);
+router.post(`/check`, checkAvailableUserName);
 router.put(`/user/me`, auth, updateProfile);
 router.put(`/user/follow/:id`, auth, followUser);
 router.put(`/user/unfollow/:id`, auth, unfollowUser);

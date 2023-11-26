@@ -4,11 +4,15 @@ import HomePosts from "../components/HomePosts";
 import Layout from "../components/Layout";
 import { useGetPostQuery } from "../redux/services";
 import { Button, CircularProgress, Stack } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { addToPost } from "../redux/slice";
 
 const Home = () => {
   const [page, setPage] = useState(1);
-  const [posts, setPosts] = useState([]);
   const [showBtn, setShowBtn] = useState(false);
+
+  const { combinePosts } = useSelector((state) => state.services);
+  const dispatch = useDispatch();
 
   const { data, isLoading, error } = useGetPostQuery(page, {
     providesTags: (result, error, page) => [{ type: "Post", id: page }],
@@ -18,21 +22,14 @@ const Home = () => {
     alert(error.data.msg);
     return;
   }
-  if (data) {
-    console.log(data);
-  }
 
   useEffect(() => {
     if (data) {
       setShowBtn(true);
+      dispatch(addToPost(data.posts));
       if (data.posts.length < 3) {
         setShowBtn(false);
       }
-      let arr = [...posts, ...data.posts];
-      let uniqueArr = arr.filter(
-        (obj, index, self) => index === self.findIndex((e) => e._id === obj._id)
-      );
-      setPosts(uniqueArr);
     }
   }, [data, page]);
 
@@ -47,12 +44,11 @@ const Home = () => {
         <Stack flexDirection={"row"} justifyContent={"center"} py={20}>
           <CircularProgress />
         </Stack>
-      ) : (
-        posts.length > 0 &&
-        posts.map((e) => {
+      ) : combinePosts.length > 0 ? (
+        combinePosts.map((e) => {
           return <HomePosts key={e._id} post={e} />;
         })
-      )}
+      ) : null}
       {showBtn && (
         <Stack
           flexDirection={"row"}

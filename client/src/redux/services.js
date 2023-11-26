@@ -31,6 +31,13 @@ export const serverApi = createApi({
       query: () => `user`,
       providesTags: ["User"],
     }),
+    checkUserName: builder.mutation({
+      query: (body) => ({
+        url: `check`,
+        method: "POST",
+        body,
+      }),
+    }),
     getPost: builder.query({
       query: (page) => `post?page=${page}`,
       providesTags: ["Post"],
@@ -41,7 +48,7 @@ export const serverApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags:['Post']
+      invalidatesTags: ["Post"],
     }),
   }),
   keepUnusedDataFor: 1000 * 60 * 60,
@@ -51,6 +58,7 @@ export const {
   useSignupMutation,
   useLoginUserMutation,
   useGetUsersQuery,
+  useCheckUserNameMutation,
   useGetPostQuery,
   useAddPostMutation
 } = serverApi;
