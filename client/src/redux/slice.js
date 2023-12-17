@@ -4,7 +4,7 @@ const initialState = {
   token: null,
   addPostModal: false,
   combinePosts: [],
-  myself:{}
+  myself: {},
 };
 
 export const serviceSlice = createSlice({
@@ -24,12 +24,13 @@ export const serviceSlice = createSlice({
       );
       state.combinePosts = uniqueArr;
     },
-    addMyself:(state,action)=>{
+    addMyself: (state, action) => {
       state.myself = action.payload;
-    }
+    },
   },
 });
 
-export const { addToken, toggleAddPostModal, addToPost , addMyself } = serviceSlice.actions;
+export const { addToken, toggleAddPostModal, addToPost, addMyself } =
+  serviceSlice.actions;
 
 export default serviceSlice.reducer;

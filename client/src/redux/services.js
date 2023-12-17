@@ -38,6 +38,12 @@ export const serverApi = createApi({
         body,
       }),
     }),
+    followUser: builder.mutation({
+      query: (id) => ({
+        url: `user/follow/${id}`,
+        method: "PUT",
+      }),
+    }),
     getMe: builder.query({
       query: () => `me`,
     }),
@@ -53,6 +59,12 @@ export const serverApi = createApi({
       }),
       invalidatesTags: ["Post"],
     }),
+    likePost: builder.mutation({
+      query: (id) => ({
+        url: `post/like/${id}`,
+        method: "PUT",
+      }),
+    }),
   }),
   keepUnusedDataFor: 1000 * 60 * 60,
 });
@@ -64,5 +76,7 @@ export const {
   useCheckUserNameMutation,
   useGetPostQuery,
   useAddPostMutation,
-  useGetMeQuery
+  useGetMeQuery,
+  useLikePostMutation,
+  useFollowUserMutation
 } = serverApi;

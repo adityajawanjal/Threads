@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useSelector } from "react-redux";
 
@@ -21,6 +21,8 @@ const ProfileLayout = () => {
   const _400 = useMediaQuery("(min-width:400px)");
 
   const { myself } = useSelector((state) => state.services);
+  const params = useParams();
+  // console.log(myself?.followers.length);
 
   return (
     <Layout>
@@ -85,7 +87,12 @@ const ProfileLayout = () => {
             </AvatarGroup>
             <Button>
               <Typography color={"gray"} fontSize={_400 ? "1rem" : "0.8rem"}>
-                {myself?.followers.length} followers
+                {myself
+                  ? Array.isArray(myself.followers)
+                    ? myself.followers.length
+                    : 0
+                  : 0}{" "}
+                followers
               </Typography>
             </Button>
           </Stack>
@@ -101,13 +108,13 @@ const ProfileLayout = () => {
           pb={2}
           borderColor={"gray"}
         >
-          <NavLink to={"/profile/threads"} className={"link"}>
+          <NavLink to={`/profile/threads/${params?.id}`} className={"link"}>
             Threads
           </NavLink>
-          <NavLink to={"/profile/replies"} className={"link"}>
+          <NavLink to={`/profile/replies/${params?.id}`} className={"link"}>
             Replies
           </NavLink>
-          <NavLink to={"/profile/reposts"} className={"link"}>
+          <NavLink to={`/profile/reposts/${params?.id}`} className={"link"}>
             Repost
           </NavLink>
         </Stack>

@@ -115,7 +115,22 @@ exports.updateProfile = async (req, res) => {
 exports.followUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findOneAndUpdate(
+    const user = await User.findById(id);
+    const isFollowed = user.followers.includes(req.user._id);
+    if (isFollowed) {
+      await User.findOneAndUpdate(
+        { _id: id },
+        { $pull: { followers: req.user._id } },
+        { new: true }
+      );
+      await User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $pull: { followings: user._id } },
+        { new: true }
+      );
+      return res.status(201).json({ msg: `Unfollowed ${user.userName}` });
+    }
+    await User.findOneAndUpdate(
       { _id: id },
       { $push: { followers: req.user._id } },
       { new: true }
@@ -128,25 +143,6 @@ exports.followUser = async (req, res) => {
     return res.status(201).json({ msg: `Following ${user.userName}` });
   } catch (err) {
     res.status(400).json({ msg: "Error in followUser !", err: err.message });
-  }
-};
-
-exports.unfollowUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findOneAndUpdate(
-      { _id: id },
-      { $pull: { followers: req.user._id } },
-      { new: true }
-    );
-    await User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $pull: { followings: user._id } },
-      { new: true }
-    );
-    return res.status(201).json({ msg: `Unfollowed ${user.userName}` });
-  } catch (err) {
-    res.status(400).json({ msg: "Error in unfollowUser !", err: err.message });
   }
 };
 

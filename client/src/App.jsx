@@ -37,7 +37,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Box>
+        <Box >
           <main>
             <Routes>
               {token ? (
@@ -46,9 +46,9 @@ const App = () => {
                   <Route exact path="/search" element={<Search />} />
                   <Route exact path="/activity" element={<Activity />} />
                   <Route exact path="/profile" element={<ProfileLayout />}>
-                    <Route exact path="threads" element={<Threads />} />
-                    <Route exact path="replies" element={<Replies />} />
-                    <Route exact path="reposts" element={<Reposts />} />
+                    <Route exact path="threads/:id" element={<Threads />} />
+                    <Route exact path="replies/:id" element={<Replies />} />
+                    <Route exact path="reposts/:id" element={<Reposts />} />
                   </Route>
                 </>
               ) : (

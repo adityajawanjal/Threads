@@ -1,10 +1,36 @@
 import { Avatar, Button, Grid, Stack, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useFollowUserMutation } from "../redux/services";
+import { useSelector } from "react-redux";
+import { useState , useEffect} from "react";
 
 const ProfileBar = ({ user }) => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _350 = useMediaQuery("(min-width:350px)");
   const _500 = useMediaQuery("(min-width:500px)");
+
+  const [follows , setFollows] = useState();
+
+  const [followUser, followUserData] = useFollowUserMutation();
+  const {myself} = useSelector(state=>state.services);
+
+  const handleFollowUser = async () => {
+    await followUser(user._id);
+  };
+
+  const checkFollowed = async () => {
+    const res = user.followers.filter((e) => e._id === myself._id);
+    if (res.length > 0) {
+      setFollows(true);
+      return;
+    }
+    setFollows(false);
+  };
+
+  useEffect(() => {
+    checkFollowed();
+  }, [followUserData.data]);
+
   return (
     <>
       <Grid
@@ -59,8 +85,9 @@ const ProfileBar = ({ user }) => {
                 height: _500 ? "40px" : "30px",
                 fontSize: _500 ? "1rem" : _350 ? "0.7rem" : "0.5rem",
               }}
+              onClick={handleFollowUser}
             >
-              Follow
+              {follows ? "Following" : "Follow"}
             </Button>
           </Stack>
         </Grid>

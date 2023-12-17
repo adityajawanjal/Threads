@@ -41,7 +41,7 @@ exports.getAllPosts = async (req, res) => {
       .populate("user")
       .skip((page - 1) * itemsPerPage)
       .limit(itemsPerPage)
-      .sort({ updatedAt: -1 });
+      .sort({ createdAt: -1 });
     return res.status(200).json({ msg: "All posts loaded !", posts, page });
   } catch (err) {
     res.status(400).json({ msg: "Error in getAllPosts !", err: err.message });

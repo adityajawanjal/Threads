@@ -10,13 +10,39 @@ import {
 import { FiMoreHorizontal } from "react-icons/fi";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { AiOutlineHeart, AiOutlineRetweet } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
+import { FaRegComment, FaHeart } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
+import { useGetPostQuery, useLikePostMutation } from "../redux/services";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 const HomePosts = ({ post }) => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _350 = useMediaQuery("(min-width:350px)");
   const _500 = useMediaQuery("(min-width:500px)");
+
+  const [liked, setLiked] = useState();
+
+  const [likePost, likePostData] = useLikePostMutation();
+
+  const { myself } = useSelector((state) => state.services);
+
+  const checkLiked = async () => {
+    const res = post.likes.filter((e) => e._id === myself._id);
+    if (res.length > 0) {
+      setLiked(true);
+      return;
+    }
+    setLiked(false);
+  };
+
+  useEffect(() => {
+    checkLiked();
+  }, [likePostData.data]);
+
+  const handleLike = async () => {
+    await likePost(post?._id);
+  };
 
   return (
     <>
@@ -48,6 +74,7 @@ const HomePosts = ({ post }) => {
                   position: "relative",
                   right: "30px",
                   top: "13px",
+                  cursor: "pointer",
                 },
               }}
             >
@@ -70,13 +97,9 @@ const HomePosts = ({ post }) => {
                   },
                 }}
               >
-                {
-                  post?.comments.map((e)=>{
-                    return(
-                      <Avatar alt="Remy Sharp" src="" />
-                    )
-                  })
-                }
+                {post?.comments.map((e) => {
+                  return <Avatar alt="Remy Sharp" src="" />;
+                })}
               </AvatarGroup>
             )}
           </Stack>
@@ -107,8 +130,22 @@ const HomePosts = ({ post }) => {
           {post?.media && (
             <img src={post.media} alt="bg" width={"100%"} height={"auto"} />
           )}
-          <Stack flexDirection={"row"} mt={1} gap={_350 ? 2 : 1} ml={1}>
-            <AiOutlineHeart size={_350 ? 28 : _300 ? 24 : 20} />
+          <Stack
+            flexDirection={"row"}
+            mt={1}
+            gap={_350 ? 2 : 1}
+            ml={1}
+            sx={{ cursor: "pointer" }}
+          >
+            {liked ? (
+              <FaHeart size={_350 ? 28 : _300 ? 24 : 20} onClick={handleLike} />
+            ) : (
+              <AiOutlineHeart
+                size={_350 ? 28 : _300 ? 24 : 20}
+                onClick={handleLike}
+              />
+            )}
+
             <FaRegComment size={_350 ? 28 : _300 ? 24 : 20} />
             <AiOutlineRetweet size={_350 ? 28 : _300 ? 24 : 20} />
             <BsSend size={_350 ? 28 : _300 ? 24 : 20} />

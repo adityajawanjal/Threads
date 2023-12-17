@@ -83,7 +83,7 @@ const Navbar = () => {
         <Link to={"/activity"}>
           <AiOutlineHeart size={_700 ? 28 : 24} color="#000" />
         </Link>
-        <Link to={"/profile/threads"}>
+        <Link to={`/profile/threads/${myself?._id}`}>
           <AiOutlineUser size={_700 ? 28 : 24} color="#000" />
         </Link>
       </Stack>

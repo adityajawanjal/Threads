@@ -25,7 +25,6 @@ router.post(`/login`, loginUser);
 router.post(`/check`, checkAvailableUserName);
 router.put(`/user/me`, auth, updateProfile);
 router.put(`/user/follow/:id`, auth, followUser);
-router.put(`/user/unfollow/:id`, auth, unfollowUser);
 router.get(`/user`, auth, getAllUsers);
 router.get(`/me`, auth, getMe);
 router.get(`/user/:id`, auth, anotherUser);

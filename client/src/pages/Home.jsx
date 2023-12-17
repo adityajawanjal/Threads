@@ -14,9 +14,7 @@ const Home = () => {
   const { combinePosts } = useSelector((state) => state.services);
   const dispatch = useDispatch();
 
-  const { data, isLoading, error } = useGetPostQuery(page, {
-    providesTags: (result, error, page) => [{ type: "Post", id: page }],
-  });
+  const { data, isLoading, error } = useGetPostQuery();
 
   if (error) {
     alert(error.data.msg);
