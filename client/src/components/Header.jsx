@@ -3,8 +3,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { BiMenuAltRight } from "react-icons/bi";
 import Navbar from "./Navbar";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addToken } from "../redux/slice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToken, toggleDarkMode } from "../redux/slice";
 
 const Header = () => {
   const _700 = useMediaQuery("(min-width:700px)");
@@ -19,6 +19,15 @@ const Header = () => {
 
   const handleClose = () => {
     setOpenMenu(null);
+  };
+
+  const handleToggleMode = () => {
+    dispatch(toggleDarkMode());
+  };
+
+  const handleAppearence = () => {
+    handleToggleMode();
+    handleClose();
   };
 
   const handleLogout = () => {
@@ -81,7 +90,7 @@ const Header = () => {
               },
             }}
           >
-            <MenuItem onClick={handleClose}>Switch apperance</MenuItem>
+            <MenuItem onClick={handleAppearence}>Switch apperance</MenuItem>
             <MenuItem onClick={handleClose}>About</MenuItem>
             <MenuItem onClick={handleClose}>Report a problem</MenuItem>
             <MenuItem

@@ -20,7 +20,7 @@ const ProfileLayout = () => {
   const _700 = useMediaQuery("(min-width:700px)");
   const _400 = useMediaQuery("(min-width:400px)");
 
-  const { myself } = useSelector((state) => state.services);
+  const { myself, darkMode } = useSelector((state) => state.services);
   const params = useParams();
   // console.log(myself?.followers.length);
 
@@ -69,23 +69,27 @@ const ProfileLayout = () => {
           alignItems={"center"}
         >
           <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
-            <AvatarGroup
-              max={3}
-              sx={{
-                "& .MuiAvatar-root": {
-                  width: 20,
-                  height: 20,
-                  fontSize: "0.6rem",
-                },
-              }}
-            >
-              {myself?.followers?.length > 0
-                ? myself.followers.map((e) => {
-                    return <Avatar alt="Remy Sharp" src="" />;
-                  })
-                : null}
-            </AvatarGroup>
-            <Button>
+            {myself?.followers?.length > 0 ? (
+              <AvatarGroup
+                max={3}
+                sx={{
+                  "& .MuiAvatar-root": {
+                    width: 20,
+                    height: 20,
+                    fontSize: "0.6rem",
+                  },
+                }}
+              >
+                {myself?.followers?.length > 0
+                  ? myself.followers.map((e) => {
+                      return <Avatar alt="Remy Sharp" src="" />;
+                    })
+                  : null}
+              </AvatarGroup>
+            ) : (
+              "No followers"
+            )}
+            {/* <Button>
               <Typography color={"gray"} fontSize={_400 ? "1rem" : "0.8rem"}>
                 {myself
                   ? Array.isArray(myself.followers)
@@ -94,7 +98,7 @@ const ProfileLayout = () => {
                   : 0}{" "}
                 followers
               </Typography>
-            </Button>
+            </Button> */}
           </Stack>
           <BsInstagram size={32} />
         </Stack>
@@ -108,13 +112,22 @@ const ProfileLayout = () => {
           pb={2}
           borderColor={"gray"}
         >
-          <NavLink to={`/profile/threads/${params?.id}`} className={"link"}>
+          <NavLink
+            to={`/profile/threads/${params?.id}`}
+            className={`link ${darkMode === "dark" ? "link-dark" : ""}`}
+          >
             Threads
           </NavLink>
-          <NavLink to={`/profile/replies/${params?.id}`} className={"link"}>
+          <NavLink
+            to={`/profile/replies/${params?.id}`}
+            className={`link ${darkMode === "dark" ? "link-dark" : ""}`}
+          >
             Replies
           </NavLink>
-          <NavLink to={`/profile/reposts/${params?.id}`} className={"link"}>
+          <NavLink
+            to={`/profile/reposts/${params?.id}`}
+            className={`link ${darkMode === "dark" ? "link-dark" : ""}`}
+          >
             Repost
           </NavLink>
         </Stack>

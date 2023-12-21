@@ -2,17 +2,17 @@ import { Avatar, Button, Grid, Stack, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useFollowUserMutation } from "../redux/services";
 import { useSelector } from "react-redux";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 
 const ProfileBar = ({ user }) => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _350 = useMediaQuery("(min-width:350px)");
   const _500 = useMediaQuery("(min-width:500px)");
 
-  const [follows , setFollows] = useState();
+  const [follows, setFollows] = useState();
 
   const [followUser, followUserData] = useFollowUserMutation();
-  const {myself} = useSelector(state=>state.services);
+  const { myself, darkMode } = useSelector((state) => state.services);
 
   const handleFollowUser = async () => {
     await followUser(user._id);
@@ -79,7 +79,7 @@ const ProfileBar = ({ user }) => {
             <Button
               variant="outlined"
               sx={{
-                color: "#000",
+                color: darkMode === "dark" ? "white":'black',
                 border: "1px solid gray",
                 borderRadius: "10px",
                 height: _500 ? "40px" : "30px",

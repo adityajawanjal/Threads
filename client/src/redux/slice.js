@@ -5,6 +5,7 @@ const initialState = {
   addPostModal: false,
   combinePosts: [],
   myself: {},
+  darkMode: "light",
 };
 
 export const serviceSlice = createSlice({
@@ -27,10 +28,22 @@ export const serviceSlice = createSlice({
     addMyself: (state, action) => {
       state.myself = action.payload;
     },
+    toggleDarkMode: (state, action) => {
+      if (state.darkMode === "light") {
+        state.darkMode = "dark";
+        return;
+      }
+      state.darkMode = "light";
+    },
   },
 });
 
-export const { addToken, toggleAddPostModal, addToPost, addMyself } =
-  serviceSlice.actions;
+export const {
+  addToken,
+  toggleAddPostModal,
+  addToPost,
+  addMyself,
+  toggleDarkMode,
+} = serviceSlice.actions;
 
 export default serviceSlice.reducer;

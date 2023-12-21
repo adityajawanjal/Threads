@@ -21,7 +21,9 @@ import { toggleAddPostModal } from "../redux/slice";
 
 const Navbar = () => {
   const _700 = useMediaQuery("(min-width:700px)");
-  const { addPostModal, myself } = useSelector((state) => state.services);
+  const { addPostModal, myself, darkMode } = useSelector(
+    (state) => state.services
+  );
   const [addPost, addPostData] = useAddPostMutation();
 
   const imgRef = useRef();
@@ -107,8 +109,7 @@ const Navbar = () => {
               </Typography>
               <input
                 placeholder="Start a thread..."
-                className="search"
-                style={{ marginLeft: "0" }}
+                className={`searchin ${darkMode === "dark" ? "darkin" : ""}`}
                 onChange={(e) => setText(e.target.value)}
               />
               <input

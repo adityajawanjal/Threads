@@ -8,12 +8,14 @@ import {
   Badge,
 } from "@mui/material";
 import Layout from "../components/Layout";
+import { useSelector } from "react-redux";
 
 const Activity = () => {
   const _700 = useMediaQuery("(min-width:700px)");
   const _300 = useMediaQuery("(min-width:300px)");
   const _350 = useMediaQuery("(min-width:350px)");
   const _500 = useMediaQuery("(min-width:500px)");
+  const { darkMode } = useSelector((state) => state.services);
   return (
     <Layout>
       <Stack
@@ -66,7 +68,7 @@ const Activity = () => {
           >
             <Stack flexDirection={"row"} justifyContent={"space-between"}>
               <Stack flexDirection={"column"}>
-                <Stack flexDirection={"row"} gap={1} alignItems={'center'}>
+                <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
                   <Typography
                     variant="h2"
                     fontWeight={"700"}
@@ -93,7 +95,7 @@ const Activity = () => {
               <Button
                 variant="outlined"
                 sx={{
-                  color: "#000",
+                  color: darkMode === "dark" ? "white" : "black",
                   border: "1px solid gray",
                   borderRadius: "10px",
                   height: _500 ? "40px" : "30px",

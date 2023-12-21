@@ -1,4 +1,9 @@
-import { Box } from "@mui/material";
+import {
+  Box,
+  CssBaseline,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./global.css";
 import Home from "./pages/Home";
@@ -15,7 +20,14 @@ import { addMyself, addToken } from "./redux/slice";
 import { useGetMeQuery } from "./redux/services";
 
 const App = () => {
-  const { token } = useSelector((state) => state.services);
+  const { token, darkMode } = useSelector((state) => state.services);
+  console.log(darkMode);
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode,
+    },
+  });
 
   const { data, error } = useGetMeQuery();
   const dispatch = useDispatch();
@@ -35,9 +47,10 @@ const App = () => {
   }, [data, token]);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <BrowserRouter>
-        <Box >
+        <Box>
           <main>
             <Routes>
               {token ? (
@@ -58,7 +71,7 @@ const App = () => {
           </main>
         </Box>
       </BrowserRouter>
-    </>
+    </ThemeProvider>
   );
 };
 

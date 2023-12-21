@@ -8,11 +8,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { BsArrowLeftRight } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleAddPostModal } from "../redux/slice";
 
 const HomeHeader = () => {
   const _700 = useMediaQuery("(min-width:700px)");
+  const { darkMode } = useSelector((state) => state.services);
 
   const dispatch = useDispatch();
 
@@ -58,7 +59,7 @@ const HomeHeader = () => {
               <input
                 type="text"
                 placeholder="Start a thread..."
-                className="search"
+                className={`searchout ${darkMode ==='dark' ? "dark" : ""}`}
                 onClick={handleOpenAddPostModal}
               />
             </Stack>
