@@ -12,7 +12,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { AiOutlineHeart, AiOutlineRetweet } from "react-icons/ai";
 import { FaRegComment, FaHeart } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
-import { useGetPostQuery, useLikePostMutation } from "../redux/services";
+import {
+  useGetPostQuery,
+  useLikePostMutation,
+  useRepostMutation,
+} from "../redux/services";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { updateAllPosts } from "../redux/slice";
@@ -26,26 +30,36 @@ const HomePosts = ({ post }) => {
   const dispatch = useDispatch();
 
   const [likePost, likePostData] = useLikePostMutation();
+  const [repost, repostdata] = useRepostMutation();
 
   const { myself, combinePosts } = useSelector((state) => state.services);
 
   const checkLiked = () => {
-    const element = combinePosts?.filter((e) => e._id === post._id);
+    const element = combinePosts?.filter((e) => e._id === post?._id);
     if (Array.isArray(element)) {
-      const ele = element[0].likes;
-      if (ele.length > 0) {
-        const isLiked = ele.findIndex((e) => e._id == myself._id);
-        if (isLiked !== -1) {
-          setLiked(true);
-          return;
+      const ele = element[0]?.likes;
+      if (ele) {
+        if (ele?.length > 0) {
+          const isLiked = ele?.findIndex((e) => e._id == myself?._id);
+          if (isLiked !== -1) {
+            setLiked(true);
+            return;
+          }
+          setLiked(false);
         }
-        setLiked(false);
       }
     }
   };
 
   const handleLike = async () => {
     await likePost(post?._id);
+  };
+
+  const handleRepost = async () => {
+    const res = await repost(post?._id);
+    if (res?.data) {
+      alert(res.data.msg);
+    }
   };
 
   useEffect(() => {
@@ -162,7 +176,10 @@ const HomePosts = ({ post }) => {
             )}
 
             <FaRegComment size={_350 ? 28 : _300 ? 24 : 20} />
-            <AiOutlineRetweet size={_350 ? 28 : _300 ? 24 : 20} />
+            <AiOutlineRetweet
+              size={_350 ? 28 : _300 ? 24 : 20}
+              onClick={handleRepost}
+            />
             <BsSend size={_350 ? 28 : _300 ? 24 : 20} />
           </Stack>
           <Stack flexDirection={"row"} mt={1} gap={1} ml={1}>

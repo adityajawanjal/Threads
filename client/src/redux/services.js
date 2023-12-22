@@ -33,7 +33,7 @@ export const serverApi = createApi({
     // }),
     searchUsers: builder.query({
       query: (key) => `user/search?key=${key}`,
-      providesTags:['User']
+      providesTags: ["User"],
     }),
     checkUserName: builder.mutation({
       query: (body) => ({
@@ -50,7 +50,15 @@ export const serverApi = createApi({
       invalidatesTags: ["User"],
     }),
     getMe: builder.query({
-      query: () => `me`,
+      query: () => ({
+        url: "me",
+      }),
+    }),
+    getUserDetails: builder.query({
+      query: (id) => ({
+        url: `user/${id}`,
+      }),
+      providesTags:['User']
     }),
     getPost: builder.query({
       query: (page = 1) => `post?page=${page}`,
@@ -71,6 +79,13 @@ export const serverApi = createApi({
       }),
       invalidatesTags: ["Post"],
     }),
+    repost: builder.mutation({
+      query: (id) => ({
+        url: `post/repost/${id}`,
+        method: "PUT",
+      }),
+      invalidatesTags:['User']
+    }),
   }),
   keepUnusedDataFor: 1000 * 60 * 60,
 });
@@ -84,5 +99,7 @@ export const {
   useGetMeQuery,
   useLikePostMutation,
   useFollowUserMutation,
-  useSearchUsersQuery
+  useSearchUsersQuery,
+  useRepostMutation,
+  useGetUserDetailsQuery,
 } = serverApi;

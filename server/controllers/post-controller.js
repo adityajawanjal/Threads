@@ -97,7 +97,10 @@ exports.likePost = async (req, res) => {
         { _id: id },
         { $pull: { likes: req.user._id } },
         { new: true }
-      ).populate('user').populate('likes').populate('comments');
+      )
+        .populate("user")
+        .populate("likes")
+        .populate("comments");
       return res.status(201).json({ msg: "Post unLiked !", post: post });
     } else {
       const post = await Post.findOneAndUpdate(
@@ -114,5 +117,24 @@ exports.likePost = async (req, res) => {
     return res
       .status(400)
       .json({ msg: "Error in likePost !", err: err.message });
+  }
+};
+
+exports.repost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (id) {
+      await User.findByIdAndUpdate(
+        req.user._id,
+        {
+          $push: { reposts: id },
+        },
+        { new: true }
+      );
+      return res.status(201).json({ msg: "Post Reposted !" });
+    }
+    return res.status(400).json({ msg: "Provide id to repost !" });
+  } catch (err) {
+    res.status(400).json({ msg: "Error in repost !", err: err.message });
   }
 };

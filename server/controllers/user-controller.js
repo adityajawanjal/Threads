@@ -161,6 +161,12 @@ exports.getAllUsers = async (req, res) => {
 exports.getMe = async (req, res) => {
   try {
     if (req.user) {
+      // const me = await User.findById(req.user._id).populate({
+      //   path: "reposts",
+      //   populate: {
+      //     path: "user likes comments",
+      //   },
+      // });
       return res.status(200).json(req.user);
     }
   } catch (err) {
@@ -168,23 +174,26 @@ exports.getMe = async (req, res) => {
   }
 };
 
-// exports.anotherUser = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const user = await User.findById(id)
-//       .populate("followings")
-//       .populate("followers")
-//       .populate("posts")
-//       .populate("reposts")
-//       .select("-password");
-//     if (!user) {
-//       return res.status.json({ msg: "No such user !" });
-//     }
-//     res.status(200).json(user);
-//   } catch (err) {
-//     res.status(400).json({ msg: "Error in anotherUser !", err: err.message });
-//   }
-// };
+exports.anotherUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id)
+      .populate("followings")
+      .populate("followers")
+      .populate("posts")
+      .populate({
+        path: "reposts",
+        populate: "user",
+      })
+      .select("-password");
+    if (!user) {
+      return res.status.json({ msg: "No such user !" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ msg: "Error in anotherUser !", err: err.message });
+  }
+};
 
 exports.searchUser = async (req, res) => {
   try {

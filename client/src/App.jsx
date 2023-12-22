@@ -16,7 +16,6 @@ import { useGetMeQuery } from "./redux/services";
 
 const App = () => {
   const { token, darkMode } = useSelector((state) => state.services);
-  console.log(darkMode);
 
   const theme = createTheme({
     palette: {
@@ -24,21 +23,20 @@ const App = () => {
     },
   });
 
-  const { data, error } = useGetMeQuery();
+  const { data, error, refetch } = useGetMeQuery();
   const dispatch = useDispatch();
-  
-   useEffect(() => {
-     const auth = localStorage.getItem("token");
-     if (auth) {
-       const newAuth = JSON.parse(auth);
-       dispatch(addToken(newAuth));
-       if (data) {
-         dispatch(addMyself(data));
-       } else if (error) {
-         localStorage.clear();
-       }
-     }
-   }, [dispatch, token, data, error]);
+
+  useEffect(() => {
+    const auth = localStorage.getItem("token");
+    if (auth) {
+      const newAuth = JSON.parse(auth);
+      dispatch(addToken(newAuth));
+      refetch();
+      if (data) {
+        dispatch(addMyself(data));
+      }
+    }
+  }, [dispatch, token, data, error]);
 
   return (
     <ThemeProvider theme={theme}>
