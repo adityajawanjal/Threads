@@ -63,8 +63,8 @@ const Register = () => {
     if (signupData.data) {
       localStorage.setItem("token", JSON.stringify(signupData.data.token));
       dispatch(addToken(signupData.data.token));
-      navigate("/");
       alert(signupData.data.msg);
+      navigate("/");
     }
   }, [signupData, navigate]);
 
@@ -72,8 +72,8 @@ const Register = () => {
     if (loginData.data) {
       localStorage.setItem("token", JSON.stringify(loginData.data.token));
       dispatch(addToken(loginData.data.token));
-      navigate("/");
       alert(loginData.data.msg);
+      navigate("/");
     }
   }, [loginData, navigate]);
 

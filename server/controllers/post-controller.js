@@ -93,19 +93,22 @@ exports.likePost = async (req, res) => {
     const post = await Post.findById(id);
     const isLiked = post.likes.includes(req.user._id);
     if (isLiked) {
-      await Post.findOneAndUpdate(
+      const post = await Post.findOneAndUpdate(
         { _id: id },
         { $pull: { likes: req.user._id } },
         { new: true }
-      );
-      return res.status(201).json({ msg: "Post unLiked !" });
+      ).populate('user').populate('likes').populate('comments');
+      return res.status(201).json({ msg: "Post unLiked !", post: post });
     } else {
-      await Post.findOneAndUpdate(
+      const post = await Post.findOneAndUpdate(
         { _id: id },
         { $push: { likes: req.user._id } },
         { new: true }
-      );
-      return res.status(201).json({ msg: "Post Liked !" });
+      )
+        .populate("user")
+        .populate("likes")
+        .populate("comments");
+      return res.status(201).json({ msg: "Post Liked !", post: post });
     }
   } catch (err) {
     return res

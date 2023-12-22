@@ -1,10 +1,5 @@
-import {
-  Box,
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Box, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./global.css";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
@@ -31,20 +26,19 @@ const App = () => {
 
   const { data, error } = useGetMeQuery();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const auth = localStorage.getItem("token");
-    if (auth) {
-      const newAuth = JSON.parse(auth);
-      dispatch(addToken(newAuth));
-    }
-  }, [dispatch, token]);
-
-  useEffect(() => {
-    if (data) {
-      dispatch(addMyself(data));
-    }
-  }, [data, token]);
+  
+   useEffect(() => {
+     const auth = localStorage.getItem("token");
+     if (auth) {
+       const newAuth = JSON.parse(auth);
+       dispatch(addToken(newAuth));
+       if (data) {
+         dispatch(addMyself(data));
+       } else if (error) {
+         localStorage.clear();
+       }
+     }
+   }, [dispatch, token, data, error]);
 
   return (
     <ThemeProvider theme={theme}>

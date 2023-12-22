@@ -48,7 +48,7 @@ export const serverApi = createApi({
       query: () => `me`,
     }),
     getPost: builder.query({
-      query: (page) => `post?page=${page}`,
+      query: (page = 1) => `post?page=${page}`,
       providesTags: ["Post"],
     }),
     addPost: builder.mutation({
@@ -64,6 +64,7 @@ export const serverApi = createApi({
         url: `post/like/${id}`,
         method: "PUT",
       }),
+      invalidatesTags: ["Post"],
     }),
   }),
   keepUnusedDataFor: 1000 * 60 * 60,
@@ -78,5 +79,5 @@ export const {
   useAddPostMutation,
   useGetMeQuery,
   useLikePostMutation,
-  useFollowUserMutation
+  useFollowUserMutation,
 } = serverApi;

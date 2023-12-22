@@ -25,6 +25,12 @@ export const serviceSlice = createSlice({
       );
       state.combinePosts = uniqueArr;
     },
+    updateAllPosts: (state, action) => {
+      const updatedPost = action.payload;
+      state.combinePosts = state.combinePosts.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      );
+    },
     addMyself: (state, action) => {
       state.myself = action.payload;
     },
@@ -44,6 +50,7 @@ export const {
   addToPost,
   addMyself,
   toggleDarkMode,
+  updateAllPosts,
 } = serviceSlice.actions;
 
 export default serviceSlice.reducer;

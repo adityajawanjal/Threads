@@ -13,8 +13,9 @@ import { AiOutlineHeart, AiOutlineRetweet } from "react-icons/ai";
 import { FaRegComment, FaHeart } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
 import { useGetPostQuery, useLikePostMutation } from "../redux/services";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { updateAllPosts } from "../redux/slice";
 
 const HomePosts = ({ post }) => {
   const _300 = useMediaQuery("(min-width:300px)");
@@ -22,27 +23,41 @@ const HomePosts = ({ post }) => {
   const _500 = useMediaQuery("(min-width:500px)");
 
   const [liked, setLiked] = useState();
+  const dispatch = useDispatch();
 
   const [likePost, likePostData] = useLikePostMutation();
 
-  const { myself } = useSelector((state) => state.services);
+  const { myself, combinePosts } = useSelector((state) => state.services);
 
-  const checkLiked = async () => {
-    const res = post.likes.filter((e) => e._id === myself._id);
-    if (res.length > 0) {
-      setLiked(true);
-      return;
+  const checkLiked = () => {
+    const element = combinePosts?.filter((e) => e._id === post._id);
+    if (Array.isArray(element)) {
+      const ele = element[0].likes;
+      if (ele.length > 0) {
+        const isLiked = ele.findIndex((e) => e._id == myself._id);
+        if (isLiked !== -1) {
+          setLiked(true);
+          return;
+        }
+        setLiked(false);
+      }
     }
-    setLiked(false);
   };
-
-  useEffect(() => {
-    checkLiked();
-  }, [likePostData.data]);
 
   const handleLike = async () => {
     await likePost(post?._id);
   };
+
+  useEffect(() => {
+    if (likePostData?.isSuccess) {
+      dispatch(updateAllPosts(likePostData.data?.post));
+      setLiked((pre) => !pre);
+    }
+  }, [likePostData?.data]);
+
+  useEffect(() => {
+    checkLiked();
+  }, []);
 
   return (
     <>
@@ -111,7 +126,7 @@ const HomePosts = ({ post }) => {
               fontWeight={"700"}
               fontSize={_300 ? "1rem" : "0.6rem"}
             >
-              {post?.user.userName}
+              {post ? (post.user ? post.user.userName : "") : ""}
             </Typography>
             <Stack flexDirection={"row"} alignItems={"flex-start"} gap={2}>
               <Typography

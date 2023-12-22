@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import HomeHeader from "../components/HomeHeader";
 import HomePosts from "../components/HomePosts";
 import Layout from "../components/Layout";
-import { useGetPostQuery } from "../redux/services";
+import { useGetPostQuery, useLikePostMutation } from "../redux/services";
 import { Button, CircularProgress, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addToPost } from "../redux/slice";
@@ -14,7 +14,7 @@ const Home = () => {
   const { combinePosts } = useSelector((state) => state.services);
   const dispatch = useDispatch();
 
-  const { data, isLoading, error } = useGetPostQuery();
+  const { data, isLoading, error } = useGetPostQuery(page);
 
   if (error) {
     alert(error.data.msg);
