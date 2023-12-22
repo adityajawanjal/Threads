@@ -27,9 +27,13 @@ export const serverApi = createApi({
         body,
       }),
     }),
-    getUsers: builder.query({
-      query: () => `user`,
-      providesTags: ["User"],
+    // getUsers: builder.query({
+    //   query: () => `user`,
+    //   providesTags: ["User"],
+    // }),
+    searchUsers: builder.query({
+      query: (key) => `user/search?key=${key}`,
+      providesTags:['User']
     }),
     checkUserName: builder.mutation({
       query: (body) => ({
@@ -43,6 +47,7 @@ export const serverApi = createApi({
         url: `user/follow/${id}`,
         method: "PUT",
       }),
+      invalidatesTags: ["User"],
     }),
     getMe: builder.query({
       query: () => `me`,
@@ -73,11 +78,11 @@ export const serverApi = createApi({
 export const {
   useSignupMutation,
   useLoginUserMutation,
-  useGetUsersQuery,
   useCheckUserNameMutation,
   useGetPostQuery,
   useAddPostMutation,
   useGetMeQuery,
   useLikePostMutation,
   useFollowUserMutation,
+  useSearchUsersQuery
 } = serverApi;

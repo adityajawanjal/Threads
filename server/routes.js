@@ -9,6 +9,7 @@ const {
   getAllUsers,
   getMe,
   anotherUser,
+  searchUser,
 } = require("./controllers/user-controller");
 const auth = require("./middlewares/auth");
 const {
@@ -27,7 +28,8 @@ router.put(`/user/me`, auth, updateProfile);
 router.put(`/user/follow/:id`, auth, followUser);
 router.get(`/user`, auth, getAllUsers);
 router.get(`/me`, auth, getMe);
-router.get(`/user/:id`, auth, anotherUser);
+// router.get(`/user/:id`, auth, anotherUser);
+router.get(`/user/search`, auth, searchUser);
 
 router.post(`/post`, auth, addPost);
 router.get(`/post`, auth, getAllPosts);

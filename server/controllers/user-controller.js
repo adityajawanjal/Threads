@@ -160,26 +160,46 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getMe = async (req, res) => {
   try {
-    res.status(200).json(req.user);
+    if (req.user) {
+      return res.status(200).json(req.user);
+    }
   } catch (err) {
     res.status(400).json({ msg: "Error in getMe !", err: err.message });
   }
 };
 
-exports.anotherUser = async (req, res) => {
+// exports.anotherUser = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const user = await User.findById(id)
+//       .populate("followings")
+//       .populate("followers")
+//       .populate("posts")
+//       .populate("reposts")
+//       .select("-password");
+//     if (!user) {
+//       return res.status.json({ msg: "No such user !" });
+//     }
+//     res.status(200).json(user);
+//   } catch (err) {
+//     res.status(400).json({ msg: "Error in anotherUser !", err: err.message });
+//   }
+// };
+
+exports.searchUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findById(id)
-      .populate("followings")
-      .populate("followers")
-      .populate("posts")
-      .populate("reposts")
-      .select("-password");
-    if (!user) {
-      return res.status.json({ msg: "No such user !" });
+    const { key } = req.query;
+    if (key) {
+      const regex = new RegExp(key, "i");
+      const users = await User.find({ userName: regex });
+      return res.status(200).json({ msg: "Users searched !", users: users });
     }
-    res.status(200).json(user);
+    const users = await User.find()
+      .select("-password")
+      .sort({ updatedAt: -1 })
+      .limit(3);
+    res.status(200).json({ msg: "Provide name !", users: users });
   } catch (err) {
-    res.status(400).json({ msg: "Error in getMe !", err: err.message });
+    res.status(400).json({ msg: "Error in searchUser !", err: err.message });
   }
 };

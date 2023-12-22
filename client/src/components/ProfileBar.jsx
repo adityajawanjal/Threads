@@ -1,6 +1,6 @@
 import { Avatar, Button, Grid, Stack, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useFollowUserMutation } from "../redux/services";
+import { useFollowUserMutation, useSearchUsersQuery } from "../redux/services";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -19,17 +19,20 @@ const ProfileBar = ({ user }) => {
   };
 
   const checkFollowed = async () => {
-    const res = user.followers.filter((e) => e._id === myself._id);
-    if (res.length > 0) {
-      setFollows(true);
-      return;
-    }
-    setFollows(false);
+    const res = user.followers.filter((e) => e === myself._id);
+    setFollows(res.length > 0);
   };
 
   useEffect(() => {
     checkFollowed();
-  }, [followUserData.data]);
+  }, [follows]);
+
+  useEffect(() => {
+    if (followUserData?.isSuccess) {
+      checkFollowed();
+      alert(followUserData.data.msg);
+    }
+  }, [followUserData?.isSuccess]);
 
   return (
     <>
@@ -79,7 +82,7 @@ const ProfileBar = ({ user }) => {
             <Button
               variant="outlined"
               sx={{
-                color: darkMode === "dark" ? "white":'black',
+                color: darkMode === "dark" ? "white" : "black",
                 border: "1px solid gray",
                 borderRadius: "10px",
                 height: _500 ? "40px" : "30px",
