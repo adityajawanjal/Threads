@@ -13,6 +13,7 @@ import { AiOutlineHeart, AiOutlineRetweet } from "react-icons/ai";
 import { FaRegComment, FaHeart } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
 import {
+  useFollowUserMutation,
   useGetPostQuery,
   useLikePostMutation,
   useRepostMutation,
@@ -20,6 +21,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { updateAllPosts } from "../redux/slice";
+import { Link } from "react-router-dom";
 
 const HomePosts = ({ post }) => {
   const _300 = useMediaQuery("(min-width:300px)");
@@ -27,9 +29,11 @@ const HomePosts = ({ post }) => {
   const _500 = useMediaQuery("(min-width:500px)");
 
   const [liked, setLiked] = useState();
+  const [follow, setFollow] = useState();
   const dispatch = useDispatch();
 
   const [likePost, likePostData] = useLikePostMutation();
+  const [followUser, followUserData] = useFollowUserMutation();
   const [repost, repostdata] = useRepostMutation();
 
   const { myself, combinePosts } = useSelector((state) => state.services);
@@ -62,6 +66,25 @@ const HomePosts = ({ post }) => {
     }
   };
 
+  const checkFollowing = () => {
+    const isFollowing =
+      myself?.followings?.length > 0
+        ? myself.followings.findIndex((e) => e._id === post?.user?._id)
+        : null;
+    if (isFollowing !== -1) {
+      setFollow(true);
+    } else {
+      setFollow(false);
+    }
+  };
+
+  const handleFollow = async (id) => {
+    const res = await followUser(id);
+    if (res) {
+      alert(res.data?.msg);
+    }
+  };
+
   useEffect(() => {
     if (likePostData?.isSuccess) {
       dispatch(updateAllPosts(likePostData.data?.post));
@@ -70,7 +93,14 @@ const HomePosts = ({ post }) => {
   }, [likePostData?.data]);
 
   useEffect(() => {
+    if (followUserData?.isSuccess) {
+      setFollow((pre) => !pre);
+    }
+  }, [followUserData?.data]);
+
+  useEffect(() => {
     checkLiked();
+    checkFollowing();
   }, []);
 
   return (
@@ -88,7 +118,7 @@ const HomePosts = ({ post }) => {
         <Grid item xs={_500 ? 1 : _350 ? 1.5 : 2}>
           <Stack flexDirection={"column"} alignItems={"center"} height={"100%"}>
             <Badge
-              badgeContent={"+"}
+              badgeContent={follow ? "✔" : "+"}
               color="primary"
               anchorOrigin={{
                 vertical: "bottom",
@@ -105,6 +135,9 @@ const HomePosts = ({ post }) => {
                   top: "13px",
                   cursor: "pointer",
                 },
+              }}
+              onClick={() => {
+                handleFollow(post?.user?._id);
               }}
             >
               <Avatar src={post?.user.profilePic} alt={post?.user.userName} />
@@ -135,13 +168,15 @@ const HomePosts = ({ post }) => {
         </Grid>
         <Grid item xs={_500 ? 10.5 : _350 ? 10 : _300 ? 9.5 : 8}>
           <Stack flexDirection={"row"} justifyContent={"space-between"}>
-            <Typography
-              variant="h2"
-              fontWeight={"700"}
-              fontSize={_300 ? "1rem" : "0.6rem"}
-            >
-              {post ? (post.user ? post.user.userName : "") : ""}
-            </Typography>
+            <Link to={`profile/threads/${post?.user?._id}`}>
+              <Typography
+                variant="h2"
+                fontWeight={"700"}
+                fontSize={_300 ? "1rem" : "0.6rem"}
+              >
+                {post ? (post.user ? post.user.userName : "") : ""}
+              </Typography>
+            </Link>
             <Stack flexDirection={"row"} alignItems={"flex-start"} gap={2}>
               <Typography
                 variant="subtitle2"

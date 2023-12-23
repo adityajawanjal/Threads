@@ -58,7 +58,7 @@ export const serverApi = createApi({
       query: (id) => ({
         url: `user/${id}`,
       }),
-      providesTags:['User']
+      providesTags: ["User"],
     }),
     getPost: builder.query({
       query: (page = 1) => `post?page=${page}`,
@@ -84,7 +84,7 @@ export const serverApi = createApi({
         url: `post/repost/${id}`,
         method: "PUT",
       }),
-      invalidatesTags:['User']
+      invalidatesTags: ["User"],
     }),
   }),
   keepUnusedDataFor: 1000 * 60 * 60,

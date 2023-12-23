@@ -9,6 +9,7 @@ const Reposts = () => {
   // const { myself } = useSelector((state) => state.services);
   const params = useParams();
   const { data, isSuccess } = useGetUserDetailsQuery(params?.id);
+  
 
   if (isSuccess) {
     console.log(data.reposts);
@@ -19,7 +20,9 @@ const Reposts = () => {
             return <HomePosts key={e._id} post={e} />;
           })
         ) : (
-          <p>No post</p>
+          <Box textAlign={"center"} mt={5}>
+            No reposts !
+          </Box>
         )}
       </>
     );
